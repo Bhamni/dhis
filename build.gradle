@@ -28,8 +28,12 @@ allprojects {
     }
 
 }
-task createOmod(type: Jar, dependsOn: subprojects.tasks['build']) {
+apply plugin: 'war'
 
+war {
+}
+
+task createOmod(type: War, dependsOn: subprojects.tasks['build']) {
     baseName = 'openmrs-module-' + project.name
     extension = 'omod'
 
@@ -38,7 +42,6 @@ task createOmod(type: Jar, dependsOn: subprojects.tasks['build']) {
             from subproject.configurations.archives.allArtifacts.files.collect {
                 zipTree(it)
             }
-
     }
 
     metaInf {
