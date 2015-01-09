@@ -1,2 +1,6 @@
 rootProject.name = 'dhis'
 
+include 'api'
+include 'omod'
+
+

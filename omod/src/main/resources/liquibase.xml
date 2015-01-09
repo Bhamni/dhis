@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="dhis-1" author="Mihir">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM global_property where property = 'aqs.config.path';
+            </sqlCheck>
+        </preConditions>
+        <comment>Add a global property path to the AQS config</comment>
+        <sql>
+            set @uuid = '';
+            select uuid() into @uuid;
+            insert into global_property (`property`, `property_value`, `description`, `uuid`)
+            values ('aqs.config.path',
+            'Configure AQS config path',
+            'Add the AQS Config path here',
+            @uuid
+            );
+        </sql>
+    </changeSet>
+</databaseChangeLog>
