@@ -19,8 +19,7 @@
             values ('aqs.config.path',
             'Configure AQS config path',
             'Add the AQS Config path here',
-            @uuid
-            );
+            @uuid);
         </sql>
     </changeSet>
 </databaseChangeLog>
