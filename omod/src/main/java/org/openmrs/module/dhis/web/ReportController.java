@@ -1,38 +1,54 @@
 package org.openmrs.module.dhis.web;
 
 import aggregatequeryservice.dblog;
-import com.mchange.v2.c3p0.C3P0Registry;
-import com.mchange.v2.c3p0.PooledDataSource;
+import aggregatequeryservice.runqueries;
+import org.openmrs.api.AdministrationService;
+import org.openmrs.module.dhis.DhisConstants;
+import org.openmrs.module.dhis.db.JDBCConnectionProvider;
+import org.openmrs.module.dhis.mapper.QueryParametersMapper;
+import org.openmrs.module.dhis.model.QueryParameters;
 import org.openmrs.module.webservices.rest.web.v1_0.controller.BaseRestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import java.beans.PropertyVetoException;
+import java.util.HashMap;
 
 @Controller
 public class ReportController extends BaseRestController {
     private final String baseUrl = "/rest/v1/dhis/";
 
+    @Autowired
+    private JDBCConnectionProvider jdbcConnectionProvider;
+
+    @Autowired
+    @Qualifier("adminService")
+    private AdministrationService administrationService;
+
     @RequestMapping(method = RequestMethod.GET, value = baseUrl + "tasks")
     @ResponseBody
-    public String getAllTasks() throws PropertyVetoException {
+    public String getAllTasks() {
         dblog dblog = new aggregatequeryservice.dblog();
-        // TODO : Mujir - a better way to get datasource without relying on C3P0.
-        PooledDataSource dataSource = (PooledDataSource) (C3P0Registry.getPooledDataSources().toArray()[0]);
-        Object allTasks = dblog.getAllTasks(dataSource);
+        Object allTasks = dblog.getAllTasks(jdbcConnectionProvider);
         return allTasks.toString();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = baseUrl + "task/{taskId}")
     @ResponseBody
-    public String getTaskById(@PathVariable("taskId") int taskId) throws PropertyVetoException {
+    public String getTaskById(@PathVariable("taskId") int taskId) {
         dblog dblog = new aggregatequeryservice.dblog();
-        // TODO : Mujir - a better way to get datasource without relying on C3P0.
-        PooledDataSource dataSource = (PooledDataSource) (C3P0Registry.getPooledDataSources().toArray()[0]);
-        Object allTasks = dblog.getTaskById(dataSource, taskId);
+        Object allTasks = dblog.getTaskById(jdbcConnectionProvider, taskId);
+        return allTasks.toString();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = baseUrl + "fireQueries")
+    @ResponseBody
+    public String fireQueries(@RequestBody QueryParameters queryParameters) {
+//        TODO:WRITE AN INTEGRATION TEST. VINAY!!!
+        String config_file = administrationService.getGlobalProperty(DhisConstants.AQS_CONFIG_GLOBAL_PROPERTY_KEY);
+        HashMap<String, String> queryParamsMap = QueryParametersMapper.map(queryParameters);
+        Object allTasks = runqueries.AQS(config_file, jdbcConnectionProvider, queryParamsMap);
         return allTasks.toString();
     }
 }

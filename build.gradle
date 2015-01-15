@@ -20,8 +20,8 @@ allprojects {
     }
 
     dependencies {
-        compile group: "org.ict4h", name: "aggregate-query-service", version: "1.0-SNAPSHOT"
-        includedJars group: "org.ict4h", name: "aggregate-query-service", version: "1.0-SNAPSHOT"
+        compile group: "org.ict4h", name: "aggregate-query-service", version: "1.1-SNAPSHOT"
+        includedJars group: "org.ict4h", name: "aggregate-query-service", version: "1.1-SNAPSHOT"
         includedJars group:"org.clojure", name:"clojure", version:"1.6.0"
 
         compile group: "org.openmrs.api", name: "openmrs-api", version: "1.10.1"
