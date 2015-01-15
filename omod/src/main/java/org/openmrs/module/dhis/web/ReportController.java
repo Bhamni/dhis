@@ -2,6 +2,7 @@ package org.openmrs.module.dhis.web;
 
 import aggregatequeryservice.dblog;
 import aggregatequeryservice.runqueries;
+import clojure.lang.PersistentArrayMap;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.module.dhis.DhisConstants;
 import org.openmrs.module.dhis.db.JDBCConnectionProvider;
@@ -44,11 +45,10 @@ public class ReportController extends BaseRestController {
 
     @RequestMapping(method = RequestMethod.POST, value = baseUrl + "fireQueries")
     @ResponseBody
-    public String fireQueries(@RequestBody QueryParameters queryParameters) {
-//        TODO:WRITE AN INTEGRATION TEST. VINAY!!!
+    public Long fireQueries(@RequestBody QueryParameters queryParameters) {
         String config_file = administrationService.getGlobalProperty(DhisConstants.AQS_CONFIG_GLOBAL_PROPERTY_KEY);
         HashMap<String, String> queryParamsMap = QueryParametersMapper.map(queryParameters);
-        Object allTasks = runqueries.AQS(config_file, jdbcConnectionProvider, queryParamsMap);
-        return allTasks.toString();
+        PersistentArrayMap allTasks = (PersistentArrayMap) runqueries.AQS(config_file, jdbcConnectionProvider, queryParamsMap);
+        return (Long) allTasks.get("task-id");
     }
 }
