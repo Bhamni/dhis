@@ -22,7 +22,7 @@ allprojects {
     dependencies {
         compile group: "org.ict4h", name: "aggregate-query-service", version: "1.1-SNAPSHOT"
         includedJars group: "org.ict4h", name: "aggregate-query-service", version: "1.1-SNAPSHOT"
-        includedJars group:"org.clojure", name:"clojure", version:"1.6.0"
+        includedJars group: "org.clojure", name: "clojure", version: "1.6.0"
 
         compile group: "org.openmrs.api", name: "openmrs-api", version: "1.10.1"
         compile group: "org.openmrs.module", name: "webservices.rest-omod-common", version: "2.6"
@@ -35,11 +35,19 @@ allprojects {
     }
 
 }
+apply plugin: 'maven-publish'
+apply plugin: 'maven-publish-auth'
+buildscript {
+    dependencies {
+        classpath group: "org.hibernate.build.gradle", name: "gradle-maven-publish-auth", version: "2.0.1"
+    }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "http://repository.jboss.org/nexus/content/groups/public/" }
+    }
+}
 
-//apply plugin: 'war'
-//war {
-//}
-//task createOmod(type: War, dependsOn: subprojects.tasks['build']) {
 task createOmod(type: Jar, dependsOn: subprojects.tasks['build']) {
     baseName = 'openmrs-module-' + project.name
     extension = 'omod'
@@ -51,12 +59,6 @@ task createOmod(type: Jar, dependsOn: subprojects.tasks['build']) {
             }
         }
     }
-//    configurations.compile.transitive = false
-//    into('lib') {
-//        from configurations.compile
-//
-//    }
-//    configurations.includedJars.transitive = false
     into('lib') {
         from configurations.includedJars
     }
@@ -68,6 +70,20 @@ task createOmod(type: Jar, dependsOn: subprojects.tasks['build']) {
         pomProperties << "groupId=${project.group}\n"
         pomProperties << "artifactId=${project.name}\n"
         from pomProperties
+    }
+}
+
+publishing {
+    publications {
+        bahmni(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            name "bahmni-artifactory"
+            url "http://bahmnirepo.thoughtworks.com/artifactory/libs-snapshot-local/"
+        }
     }
 }
 
