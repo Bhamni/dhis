@@ -90,5 +90,3 @@ publishing {
 artifacts {
     archives createOmod
 }
-
-defaultTasks 'createOmod'
