@@ -29,18 +29,18 @@ public class ReportController extends BaseRestController {
 
     @RequestMapping(method = RequestMethod.GET, value = baseUrl + "tasks")
     @ResponseBody
-    public String getAllTasks() {
+    public Object getAllTasks() {
         dblog dblog = new aggregatequeryservice.dblog();
         Object allTasks = dblog.getAllTasks(jdbcConnectionProvider);
-        return allTasks.toString();
+        return allTasks;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = baseUrl + "task/{taskId}")
     @ResponseBody
-    public String getTaskById(@PathVariable("taskId") int taskId) {
+    public PersistentArrayMap getTaskById(@PathVariable("taskId") int taskId) {
         dblog dblog = new aggregatequeryservice.dblog();
-        Object allTasks = dblog.getTaskById(jdbcConnectionProvider, taskId);
-        return allTasks.toString();
+        PersistentArrayMap allTasks = (PersistentArrayMap) dblog.getTaskById(jdbcConnectionProvider, taskId);
+        return allTasks;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = baseUrl + "fireQueries")

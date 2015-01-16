@@ -4,11 +4,11 @@
     "queries": [
       {
         "queryName": "list_of_male_person",
-        "query": "select count(*) as number_of_males from person where person_id not in (select person_id from person where person_id in (select person_id from person where gender=\":firstGender:\" and person_id>:firstCount:));"
+        "query": "select count(*) as number_of_males from person where person_id not in (select person_id from person where person_id in (select person_id from person where gender=':firstGender:' and person_id>:firstCount:));"
       },
       {
         "queryName": "list_of_female_person",
-        "query": "select count(*) as number_of_females from person where person_id not in (select person_id from person where person_id in (select person_id from person where gender=\":secondGender:\" and person_id>:secondCount:));"
+        "query": "select count(*) as number_of_females from person where person_id not in (select person_id from person where person_id in (select person_id from person where gender=':secondGender:' and person_id>:secondCount:));"
       }
     ]
   }
