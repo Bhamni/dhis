@@ -73,6 +73,10 @@ task createOmod(type: Jar, dependsOn: subprojects.tasks['build']) {
     }
 }
 
+task vagrantDeploy(type: Exec, dependsOn: createOmod) {
+    commandLine 'sh', 'scripts/vagrant/vagrant-deploy.sh', System.getProperty("user.dir"), project.version
+}
+
 publishing {
     publications {
         bahmni(MavenPublication) {
