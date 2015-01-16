@@ -54,4 +54,15 @@
             <column name="uuid" type="varchar(38)"/>
         </addColumn>
     </changeSet>
+    <changeSet id="dhis-201501161630" author="Mujir, Mihir">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select count(*) from privilege where privilege = 'app:dhis'</sqlCheck>
+        </preConditions>
+        <insert tableName="privilege">
+            <column name="privilege" value="app:dhis"/>
+            <column name="description" value="DHIS app access privilege"/>
+            <column name="uuid" valueComputed="uuid()"/>
+        </insert>
+    </changeSet>
+
 </databaseChangeLog>
