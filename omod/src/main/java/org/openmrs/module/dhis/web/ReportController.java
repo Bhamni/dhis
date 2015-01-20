@@ -1,5 +1,6 @@
 package org.openmrs.module.dhis.web;
 
+import aggregatequeryservice.aqstask.AQSTask;
 import aggregatequeryservice.dblog;
 import aggregatequeryservice.runqueries;
 import clojure.lang.PersistentArrayMap;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @Controller
@@ -29,18 +31,18 @@ public class ReportController extends BaseRestController {
 
     @RequestMapping(method = RequestMethod.GET, value = baseUrl + "tasks")
     @ResponseBody
-    public Object getAllTasks() {
+    public ArrayList getAllTasks() {
         dblog dblog = new aggregatequeryservice.dblog();
-        Object allTasks = dblog.getAllTasks(jdbcConnectionProvider);
+        ArrayList allTasks = (ArrayList) dblog.getAllTasks(jdbcConnectionProvider);
         return allTasks;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = baseUrl + "task/{taskId}")
     @ResponseBody
-    public PersistentArrayMap getTaskById(@PathVariable("taskId") int taskId) {
+    public AQSTask getTaskById(@PathVariable("taskId") int taskId) {
         dblog dblog = new aggregatequeryservice.dblog();
-        PersistentArrayMap allTasks = (PersistentArrayMap) dblog.getTaskById(jdbcConnectionProvider, taskId);
-        return allTasks;
+        AQSTask task = (AQSTask) dblog.getTaskById(jdbcConnectionProvider, taskId);
+        return task;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = baseUrl + "fireQueries")
