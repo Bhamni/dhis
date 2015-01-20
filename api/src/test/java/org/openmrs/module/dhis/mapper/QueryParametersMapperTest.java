@@ -1,8 +1,7 @@
-package mapper;
+package org.openmrs.module.dhis.mapper;
 
 
 import org.junit.Test;
-import org.openmrs.module.dhis.mapper.QueryParametersMapper;
 import org.openmrs.module.dhis.model.QueryParameter;
 import org.openmrs.module.dhis.model.QueryParameters;
 

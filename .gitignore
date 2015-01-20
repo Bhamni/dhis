@@ -6,5 +6,9 @@ build/
 *.iml
 # Ignore Gradle GUI config
 gradle-app.setting
+classes/
+*.ipr
+*.iws
+*.swp
 
 
