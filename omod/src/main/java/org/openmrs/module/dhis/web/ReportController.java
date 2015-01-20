@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -33,7 +34,7 @@ public class ReportController extends BaseRestController {
     @ResponseBody
     public ArrayList getAllTasks() {
         dblog dblog = new aggregatequeryservice.dblog();
-        ArrayList allTasks = (ArrayList) dblog.getAllTasks(jdbcConnectionProvider);
+        ArrayList allTasks = dblog.getAllTasks(jdbcConnectionProvider);
         return allTasks;
     }
 
