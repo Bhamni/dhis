@@ -9,7 +9,6 @@ import org.openmrs.api.AdministrationService;
 import org.openmrs.module.dhis.DhisConstants;
 import org.openmrs.module.dhis.db.JDBCConnectionProvider;
 import org.openmrs.module.dhis.mapper.QueryParametersMapper;
-import org.openmrs.module.dhis.model.AQSTaskWrapper;
 import org.openmrs.module.dhis.model.QueryParameters;
 import org.openmrs.module.webservices.rest.web.v1_0.controller.BaseRestController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Controller
 public class ReportController extends BaseRestController {
@@ -39,18 +39,17 @@ public class ReportController extends BaseRestController {
 
     @RequestMapping(method = RequestMethod.GET, value = baseUrl + "tasks")
     @ResponseBody
-    public ArrayList getAllTasks() {
+    public List<AQSTask> getAllTasks() {
         dblog dblog = new aggregatequeryservice.dblog();
-        ArrayList allTasks = dblog.getAllTasks(jdbcConnectionProvider);
-        return allTasks;
+        return dblog.getAllTasks(jdbcConnectionProvider);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = baseUrl + "task/{taskId}")
     @ResponseBody
-    public AQSTaskWrapper getTaskById(@PathVariable("taskId") int taskId) {
+    public AQSTask getTaskById(@PathVariable("taskId") int taskId) {
         dblog dblog = new aggregatequeryservice.dblog();
-        AQSTask task = (AQSTask) dblog.getTaskById(jdbcConnectionProvider, taskId);
-        return new AQSTaskWrapper(task);
+        Object taskById = dblog.getTaskById(jdbcConnectionProvider, taskId);
+        return (AQSTask) taskById;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = baseUrl + "fireQueries")

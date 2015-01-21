@@ -14,7 +14,6 @@ import org.openmrs.GlobalProperty;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.module.dhis.DhisConstants;
 import org.openmrs.module.dhis.db.JDBCConnectionProvider;
-import org.openmrs.module.dhis.model.AQSTaskWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -62,23 +61,23 @@ public class ReportControllerTest extends BaseWebControllerTest {
 
     @Test
     public void trigger_aqs_fire_queries() throws Exception {
-        Integer taskId = Integer.valueOf(handle(newPostRequest("/rest/v1/dhis/fireQueries", postJson)).getContentAsString());
+        Long taskId = Long.valueOf(handle(newPostRequest("/rest/v1/dhis/fireQueries", postJson)).getContentAsString());
 
         dblog dblog = new aggregatequeryservice.dblog();
-        AQSTask executedTask = (AQSTask) dblog.getTaskById(jdbcConnectionProvider, taskId);
+        AQSTask executedTask = (AQSTask) dblog.getTaskById(jdbcConnectionProvider, taskId.intValue());
 
-        while (!executedTask.taskStatus.equals("DONE")) {
-            executedTask = (AQSTask) dblog.getTaskById(jdbcConnectionProvider, taskId);
+        while (!executedTask.getTaskStatus().equals("DONE")) {
+            executedTask = (AQSTask) dblog.getTaskById(jdbcConnectionProvider, taskId.intValue());
         }
-        assertEquals(taskId.intValue(), ((Long) executedTask.taskId).longValue());
-        assertTrue(((String) executedTask.results).contains("number_of_males"));
-        assertTrue(((String) executedTask.results).contains("number_of_females"));
+        assertEquals(taskId, executedTask.getTaskId());
+        assertTrue(((String) executedTask.getResults()).contains("number_of_males"));
+        assertTrue(((String) executedTask.getResults()).contains("number_of_females"));
     }
 
     @Test
     public void get_task_by_id() throws Exception {
         Integer taskId = Integer.valueOf(handle(newPostRequest("/rest/v1/dhis/fireQueries", postJson)).getContentAsString());
-        AQSTaskWrapper task = deserialize(handle(newGetRequest("/rest/v1/dhis/task/" + String.valueOf(taskId))), AQSTaskWrapper.class);
+        AQSTask task = deserialize(handle(newGetRequest("/rest/v1/dhis/task/" + String.valueOf(taskId))), AQSTask.class);
         assertEquals(taskId.intValue(), task.getTaskId().intValue());
         assertEquals(String.valueOf(AQS_CONFIG.getValue()), task.getAqsConfigPath());
     }
