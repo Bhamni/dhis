@@ -1,7 +1,7 @@
 apply plugin: "java"
 dependencies {
     compile project(":api")
-    compile group: "org.ict4h", name: "aggregate-query-service", version: "1.0-SNAPSHOT"
+    compile group: "org.ict4h", name: "aggregate-query-service", version: "1.1-SNAPSHOT"
     testCompile group: "org.openmrs.web", name: "openmrs-web", version: "1.10.1"
     testCompile group: "org.dbunit", name: "dbunit", version: "2.4.7"
     testCompile group: "org.mockito", name: "mockito-core", version: "1.9.5"

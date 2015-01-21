@@ -56,7 +56,7 @@ public class ReportController extends BaseRestController {
     @RequestMapping(method = RequestMethod.POST, value = baseUrl + "fireQueries")
     @ResponseBody
     public ResponseEntity<Long> fireQueries(@RequestBody QueryParameters queryParameters) {
-        if (CollectionUtils.isEmpty(getTasksInProgress()))
+        if (!CollectionUtils.isEmpty(getTasksInProgress()))
             return new ResponseEntity<>(DhisConstants.INVALID_TASK_ID, HttpStatus.CONFLICT);
 
         String config_file = administrationService.getGlobalProperty(DhisConstants.AQS_CONFIG_GLOBAL_PROPERTY_KEY);

@@ -63,6 +63,7 @@ public class ReportControllerTest extends BaseWebControllerTest {
     @Test
     public void trigger_aqs_fire_queries() throws Exception {
         Integer taskId = Integer.valueOf(handle(newPostRequest("/rest/v1/dhis/fireQueries", postJson)).getContentAsString());
+
         dblog dblog = new aggregatequeryservice.dblog();
         AQSTask executedTask = (AQSTask) dblog.getTaskById(jdbcConnectionProvider, taskId);
 
