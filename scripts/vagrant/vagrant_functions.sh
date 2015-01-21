@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash -e
 
 #####################################################################################################
 # This script can be used to call functions which will execute a command in your vagrant box. 
@@ -13,12 +13,11 @@ KEY_FILE=~/.vagrant.d/insecure_private_key
 TIMEOUT="-o ConnectTimeout=5"
 
 function run_in_vagrant {
-    
     if [ "$1" == "-c" ]; then
-		ssh vagrant@$MACHINE_IP -i $KEY_FILE $TIMEOUT "$2"
-	elif [ "$1" == "-f" ]; then
-		ssh vagrant@$MACHINE_IP -i $KEY_FILE $TIMEOUT < "$2"
-	fi
+		    ssh vagrant@$MACHINE_IP -i $KEY_FILE $TIMEOUT "$2"
+	  elif [ "$1" == "-f" ]; then
+		    ssh vagrant@$MACHINE_IP -i $KEY_FILE $TIMEOUT < "$2"
+	  fi
 
 }
 

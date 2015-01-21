@@ -13,8 +13,10 @@ PROJECT_BASE=$PATH_OF_CURRENT_SCRIPT/../..
 # Setup environment
 run_in_vagrant -f "$SCRIPTS_DIR/setup_environment.sh"
 
+set +e
 # Kill tomcat
 run_in_vagrant -f "$SCRIPTS_DIR/tomcat_stop.sh"
+set -e
 
 run_in_vagrant -c "mkdir -p $MODULE_DEPLOYMENT_FOLDER"
 # Deploy Bhamni core
