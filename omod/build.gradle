@@ -1,4 +1,9 @@
 apply plugin: "java"
+
+repositories {
+    maven { url "http://bahmnirepo.thoughtworks.com/artifactory/libs-snapshot-local/" }
+}
+
 dependencies {
     compile project(":api")
     compile group: "org.ict4h", name: "aggregate-query-service", version: "1.1-SNAPSHOT"
@@ -11,4 +16,5 @@ dependencies {
     testCompile group: "org.openmrs.api", name: "openmrs-api", version: "1.10.1", classifier: "tests"
     testCompile group: "org.bahmni.test", name: "bahmni-test-commons", version: "5.2-SNAPSHOT", classifier: "tests"
     testCompile group: "org.liquibase", name: "liquibase-core", version: "2.0.5"
+
 }
