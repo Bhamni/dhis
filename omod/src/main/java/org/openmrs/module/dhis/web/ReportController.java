@@ -40,16 +40,13 @@ public class ReportController extends BaseRestController {
     @RequestMapping(method = RequestMethod.GET, value = baseUrl + "tasks")
     @ResponseBody
     public List<AQSTask> getAllTasks() {
-        dblog dblog = new aggregatequeryservice.dblog();
-        return dblog.getAllTasks(jdbcConnectionProvider);
+        return new aggregatequeryservice.dblog().getAllTasks(jdbcConnectionProvider);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = baseUrl + "task/{taskId}")
     @ResponseBody
     public AQSTask getTaskById(@PathVariable("taskId") int taskId) {
-        dblog dblog = new aggregatequeryservice.dblog();
-        Object taskById = dblog.getTaskById(jdbcConnectionProvider, taskId);
-        return (AQSTask) taskById;
+        return (AQSTask) new dblog().getTaskById(jdbcConnectionProvider, taskId);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = baseUrl + "fireQueries")
@@ -65,7 +62,6 @@ public class ReportController extends BaseRestController {
     }
 
     private ArrayList getTasksInProgress() {
-        dblog dblog = new aggregatequeryservice.dblog();
-        return dblog.getAllTasksInProgress(jdbcConnectionProvider);
+        return new aggregatequeryservice.dblog().getAllTasksInProgress(jdbcConnectionProvider);
     }
 }
