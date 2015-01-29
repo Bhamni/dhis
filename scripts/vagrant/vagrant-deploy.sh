@@ -20,7 +20,7 @@ set -e
 
 run_in_vagrant -c "mkdir -p $MODULE_DEPLOYMENT_FOLDER"
 # Deploy Bhamni core
-scp_to_vagrant $PROJECT_BASE/build/libs/openmrs-module-dhis*-$VERSION.omod $MODULE_DEPLOYMENT_FOLDER/openmrs-module-dhis-$VERSION.omod
+scp_to_vagrant $PROJECT_BASE/build/libs/dhis-$VERSION.omod $MODULE_DEPLOYMENT_FOLDER/dhis-$VERSION.omod
 
 # Copy omod files to the vagrant box - in /tmp
 #Deploy them from Vagrant /tmp to appropriate location

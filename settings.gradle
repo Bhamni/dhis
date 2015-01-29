@@ -1,4 +1,4 @@
-rootProject.name = 'dhis'
+rootProject.name = 'dhis-omod'
 
 include "api", "omod"
 
