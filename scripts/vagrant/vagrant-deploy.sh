@@ -18,9 +18,11 @@ set +e
 run_in_vagrant -f "$SCRIPTS_DIR/tomcat_stop.sh"
 set -e
 
+run_in_vagrant -c "rm -rf $MODULE_DEPLOYMENT_FOLDER"
 run_in_vagrant -c "mkdir -p $MODULE_DEPLOYMENT_FOLDER"
+
 # Deploy Bhamni core
-scp_to_vagrant $PROJECT_BASE/build/libs/dhis-$VERSION.omod $MODULE_DEPLOYMENT_FOLDER/dhis-$VERSION.omod
+scp_to_vagrant $PROJECT_BASE/build/libs/dhis*-$VERSION.omod $MODULE_DEPLOYMENT_FOLDER/
 
 # Copy omod files to the vagrant box - in /tmp
 #Deploy them from Vagrant /tmp to appropriate location

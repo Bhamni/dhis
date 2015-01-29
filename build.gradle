@@ -76,6 +76,7 @@ task createOmodJar(type: Jar, dependsOn: subprojects.tasks['build']) {
 task createOmod(type: Copy, dependsOn: createOmodJar) {
     from('build/libs/')
     into('build/libs/')
+
     rename (project.name + '-' + version + '.jar', project.name + '-' + version + '.omod')
 }
 

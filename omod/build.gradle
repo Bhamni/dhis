@@ -1,6 +1,7 @@
 apply plugin: "java"
 
 repositories {
+    mavenLocal()
     maven { url "http://bahmnirepo.thoughtworks.com/artifactory/libs-snapshot-local/" }
 }
 
